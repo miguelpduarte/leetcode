@@ -7,28 +7,16 @@ class Solution {
             map1.put(num, map1.getOrDefault(num, 0) + 1);
         }
 
-        System.out.println("map1 = " + map1);
-
-        HashMap<Integer, Integer> map2 = new HashMap<>();
-        for (int num : nums2) {
-            map2.put(num, map2.getOrDefault(num, 0) + 1);
-        }
-
-        System.out.println("map2 = " + map2);
-
         ArrayList<Integer> result = new ArrayList<>();
-        for (int key : map1.keySet()) {
-            if (map2.containsKey(key)) {
-                // Element present in both maps, take the min of both maps (count of common elements)
-                int itemCount = Math.min(map1.get(key), map2.get(key));
-                // And add the key count times
-                for (int i = 0; i < itemCount; ++i) {
-                    result.add(key);
-                }
+        for (int num : nums2) {
+            Integer arr1_count = map1.get(num);
+            if (arr1_count != null && arr1_count > 0) {
+                result.add(num);
+                map1.put(num, arr1_count - 1);
             }
         }
 
-        return result.stream().mapToInt(i -> i).toArray();
+        return result.stream().mapToInt(Integer::intValue).toArray();
     }
 
     public static void main(String[] args) {
