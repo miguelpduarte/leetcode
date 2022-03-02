@@ -24,22 +24,18 @@ class ListNode {
 
 public class Solution {
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        HashSet<ListNode> seen_nodes = new HashSet<>();
+        ListNode curr1 = headA;
+        ListNode curr2 = headB;
 
-        ListNode currA = headA;
-        while (currA != null) {
-            seen_nodes.add(currA);
-            currA = currA.next;
+        // Both pointers iterate over both lists, first one then the other (crossed, 1 does A->B, 2 does B->A)
+        // This ensures that the intersection is found regardless of differing lengths.
+        // If the intersection does not exist, both pointers will be equal at the end of the list (null) because len(a) + len(b) == len(b) + len(a)
+        // Thus this works regardless of there being an intersection or not, and the lists having different size or not.
+        while (curr1 != curr2) {
+            curr1 = curr1 == null ? headB : curr1.next;
+            curr2 = curr2 == null ? headA : curr2.next;
         }
 
-        ListNode currB = headB;
-        while(currB != null) {
-            if (seen_nodes.contains(currB)) {
-                return currB;
-            }
-            currB = currB.next;
-        }
-
-        return null;
+        return curr1;
     }
 }
